@@ -1,1 +1,165 @@
-Shows how to test functions using Stated
+```shell
+> .note - let's show the serverless functions as expressions
+"============================================================="
+> .open
+1: serverlessFuncsAsExpressions.json
+2: serverlessFuncsAsFunctions.json
+3: testWfExprs.yaml
+4: testWfFuncs.yaml
+Enter the number of the file to open (or type "abort" to cancel): 1
+{
+  "functions": [
+    {
+      "name": "is-adult",
+      "operation": "applicant.age >= 18",
+      "type": "expression"
+    },
+    {
+      "name": "is-minor",
+      "operation": "applicant.age < 18",
+      "type": "expression"
+    }
+  ]
+}
+...try '.out' or 'template.output' to see evaluated template
+> .note - let's show the serverless functions as functions
+"============================================================="
+> .open
+1: serverlessFuncsAsExpressions.json
+2: serverlessFuncsAsFunctions.json
+3: testWfExprs.yaml
+4: testWfFuncs.yaml
+Enter the number of the file to open (or type "abort" to cancel): 2
+{
+  "functions": [
+    {
+      "name": "is-adult",
+      "operation": "${   function($applicant){$applicant.age >= 18}  }",
+      "type": "expression"
+    },
+    {
+      "name": "is-minor",
+      "operation": "${   function($applicant){$applicant.age < 18}  }",
+      "type": "expression"
+    }
+  ]
+}
+> .note - let's show the test when the serverless functions are expressions
+"============================================================="
+> .open
+1: serverlessFuncsAsExpressions.json
+2: serverlessFuncsAsFunctions.json
+3: testWfExprs.yaml
+4: testWfFuncs.yaml
+Enter the number of the file to open (or type "abort" to cancel): 3
+{
+"libFuncs": "${$import('https://raw.githubusercontent.com/geoffhendrey/testingFunctions/main/src/serverlessFuncsAsExpressions.json')}",
+"testData": [
+{
+"age": 17
+},
+{
+"age": 18
+},
+{
+"age": 19
+}
+],
+"isAdult": "${ function($applicant){ $eval(libFuncs.*[name='is-adult'].operation, {'applicant':$applicant})}   }",
+"isMinor": "${ function($applicant){ $eval(libFuncs.*[name='is-minor'].operation, {'applicant':$applicant})}   }",
+"isAdultPassedTests": "${ testData ~> $map(isAdult) = [false, true, true] }",
+"isMinorPassedTests": "${ testData ~> $map(isMinor) = [true, false, false]}"
+}
+...try '.out' or 'template.output' to see evaluated template
+> .out
+{
+"libFuncs": {
+"functions": [
+{
+"name": "is-adult",
+"operation": "applicant.age >= 18",
+"type": "expression"
+},
+{
+"name": "is-minor",
+"operation": "applicant.age < 18",
+"type": "expression"
+}
+]
+},
+"testData": [
+{
+"age": 17
+},
+{
+"age": 18
+},
+{
+"age": 19
+}
+],
+"isAdult": "{function:}",
+"isMinor": "{function:}",
+"isAdultPassedTests": true,
+"isMinorPassedTests": true
+}
+> .note - let's show the test when the serverless functions are jsonata functions
+"============================================================="
+> .open
+1: serverlessFuncsAsExpressions.json
+2: serverlessFuncsAsFunctions.json
+3: testWfExprs.yaml
+4: testWfFuncs.yaml
+Enter the number of the file to open (or type "abort" to cancel): 4
+{
+"libFuncs": "${$import('https://raw.githubusercontent.com/geoffhendrey/testingFunctions/main/src/serverlessFuncsAsFunctions.json')}",
+"testData": [
+{
+"age": 17
+},
+{
+"age": 18
+},
+{
+"age": 19
+}
+],
+"isAdult": "${libFuncs.*[name='is-adult'].operation}",
+"isMinor": "${libFuncs.*[name='is-minor'].operation}",
+"isAdultPassedTests": "${ testData ~> $map(isAdult) = [false, true, true] }",
+"isMinorPassedTests": "${ testData ~> $map(isMinor) = [true, false, false]}"
+}
+...try '.out' or 'template.output' to see evaluated template
+> .out
+{
+"libFuncs": {
+"functions": [
+{
+"name": "is-adult",
+"operation": "{function:}",
+"type": "expression"
+},
+{
+"name": "is-minor",
+"operation": "{function:}",
+"type": "expression"
+}
+]
+},
+"testData": [
+{
+"age": 17
+},
+{
+"age": 18
+},
+{
+"age": 19
+}
+],
+"isAdult": "{function:}",
+"isMinor": "{function:}",
+"isAdultPassedTests": true,
+"isMinorPassedTests": true
+}
+````

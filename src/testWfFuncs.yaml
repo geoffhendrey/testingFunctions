@@ -1,4 +1,4 @@
-libFuncs: "${$import('https://raw.githubusercontent.com/geoffhendrey/jsonataplay/main/serverlessFuncs2.json')}"
+libFuncs: "${$import('https://raw.githubusercontent.com/geoffhendrey/testingFunctions/main/src/serverlessFuncsAsFunctions.json')}"
 testData:
   - { age: 17 }
   - { age: 18 }
