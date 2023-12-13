@@ -182,3 +182,11 @@ Enter the number of the file to open (or type "abort" to cancel): 4
   "isMinorPassedTests": true
 }
 ```
+```shell
+> .note you can interact directly with functions for debugging
+"============================================================="
+> await template.output.isAdult({"age":100})
+true
+> await template.output.isAdult({"age":15})
+false
+```
