@@ -1,0 +1,14 @@
+{
+  "functions": [
+    {
+      "name": "is-adult",
+      "operation": "${   function($applicant){$applicant.age >= 18}  }",
+      "type": "expression"
+    },
+    {
+      "name": "is-minor",
+      "operation": "${   function($applicant){$applicant.age < 18}  }",
+      "type": "expression"
+    }
+  ]
+}

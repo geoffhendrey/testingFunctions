@@ -1,0 +1,9 @@
+libFuncs: "${$import('https://raw.githubusercontent.com/geoffhendrey/jsonataplay/main/serverlessFuncs2.json')}"
+testData:
+  - { age: 17 }
+  - { age: 18 }
+  - { age: 19 }
+isAdult: "${libFuncs.*[name='is-adult'].operation}"
+isMinor: "${libFuncs.*[name='is-minor'].operation}"
+isAdultPassedTests: "${ testData ~> $map(isAdult) = [false, true, true] }"
+isMinorPassedTests: "${ testData ~> $map(isMinor) = [true, false, false]}"

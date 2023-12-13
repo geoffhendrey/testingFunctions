@@ -1,0 +1,10 @@
+# IntelliJ IDEA
+.idea/
+
+# IDE-specific files
+*.iml
+*.iws
+*.ipr
+*.iws
+*.ids
+.idea_modules/
